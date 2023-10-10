@@ -3,7 +3,7 @@
 #include "Function1.h"
 using namespace std;
 
-char nextChar = '\0'; // Терминатор
+char nextCh = '\0'; // Терминатор
 string line;          // Хранение строки
 int currentPos = 0;   // Отслеживание текущей позиции в строке (каретка)
 
@@ -14,21 +14,21 @@ void NextChar() {
 
     if (currentPos < line.length()) {
         // Если строка не закончилась, берем следующий символ
-        nextChar = line[currentPos];
+        nextCh = line[currentPos];
         currentPos++;
     }
     else {
         // Если строка закончилась
-        nextChar = '\0';
+        nextCh = '\0';
     }
 }
 
 int sum() {
-    int result = part();
+    int result = part(); // Вычисляем первый операнд
     char op;
 
     while (true) {
-        op = nextChar; // Получаем следующий символ операции 
+        op = nextCh; // Получаем следующий символ операции 
 
         switch (op) {
         case '+':
@@ -50,13 +50,13 @@ int part() {
     char op; 
 
     while (true) {
-        op = nextChar; 
+        op = nextCh; 
 
         switch (op) {
         case '*':
         {
             NextChar();
-            result *= factor(); // Вычисляем второй операнд и умножаем на результат
+            result *= factor(); // Вычисляем второй операнд
             break;
         }
         case '/':
@@ -76,9 +76,9 @@ int part() {
     }
 }
 
-int factor() {
-    char bracket = nextChar;
-    int sign = 1; //По умолчанию положительный
+int factor() { // Считывание в скобках
+    char bracket = nextCh;
+    int sign = 1; // По умолчанию положительный
 
     while (bracket == ' ') {
         NextChar();
@@ -103,7 +103,7 @@ int factor() {
         NextChar(); // Пропускаем открывающую скобку
         result = sum(); // Вычисляем результат внутри скобок
 
-        if (nextChar != ')') {
+        if (nextCh != ')') {
             cerr << "Неверная расстановка скобок " << endl;
             return -1;
         }
@@ -118,18 +118,18 @@ int factor() {
 
 int num() {
     int result = 0;
-    int sign = 1; //По умолчанию положительный
+    int sign = 1; // По умолчанию положительный
 
-    if (nextChar == '-') {
-        sign = -1; //Если следущий символ минус установка отрциательного
+    if (nextCh == '-') {
+        sign = -1; // Если следущий символ минус установка отрциательного
         NextChar();
     }
-    else if (nextChar == '+') {
-        NextChar(); //Если следущий символ плюс пропуск
+    else if (nextCh == '+') {
+        NextChar(); // Если следущий символ плюс пропуск
     }
 
-    while (nextChar >= '0' && nextChar <= '9') { //Если следущий символ цифра то добавляем
-        result = result * 10 + (nextChar - '0'); 
+    while (nextCh >= '0' && nextCh <= '9') { // Если следущий символ цифра то добавляем
+        result = result * 10 + (nextCh - '0');  // result * 10 сдвиг
         NextChar();
     }
 
@@ -139,7 +139,7 @@ int num() {
 int Calculate()
 {
     int result;
-    cout << "Введите выражение: ";
+    cout << "Введите выражение ";
     getline(cin, line); // Считываем всю строку
 
     NextChar(); // Инициализация следующего символа
